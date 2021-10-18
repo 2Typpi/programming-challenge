@@ -1,6 +1,8 @@
 package de.exxcellent.challenge;
 
 import java.io.*;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.nio.charset.StandardCharsets;
 
 public class CSVReader implements IReader {
@@ -10,13 +12,19 @@ public class CSVReader implements IReader {
     }
 
     public BufferedReader getFileFromResourceAsStream(String fileName) {
-
         BufferedReader csvReader = null;
-        File csvFile = new File(fileName);
-        if (csvFile.isFile()) {
+
+        ClassLoader classLoader = getClass().getClassLoader();
+        URL resource = classLoader.getResource(fileName);
+        if (resource == null) {
+            throw new IllegalArgumentException("file not found! " + fileName);
+        } else {
             try {
-                csvReader = new BufferedReader(new FileReader(fileName));
+                File resourceFile = new File(resource.toURI());
+                csvReader = new BufferedReader(new FileReader(resourceFile));
             } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (URISyntaxException e) {
                 e.printStackTrace();
             }
         }
