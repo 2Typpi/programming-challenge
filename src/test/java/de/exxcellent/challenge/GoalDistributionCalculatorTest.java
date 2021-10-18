@@ -23,8 +23,8 @@ class GoalDistributionCalculatorTest {
         footballData.add(lastTeam);
 
         GoalDistributionCalculator goalDistributionCalculator = new GoalDistributionCalculator();
-        WeatherDay teanWithMinGoalSpread = goalDistributionCalculator.findMinGoalSpread(footballData);
+        FootballTeam teamWithMinGoalSpread = goalDistributionCalculator.findMinGoalSpread(footballData);
 
-        assertEquals(teamTwo.getTeamName(), teanWithMinGoalSpread.getTeamName(), "Team with Minimal Goal Spread not found");
+        assertEquals(teamTwo.getTeamName(), teamWithMinGoalSpread.getTeamName(), "Team with Minimal Goal Spread not found");
     }
 }
