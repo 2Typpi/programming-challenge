@@ -25,6 +25,7 @@ public final class App {
         WeatherParser weatherParser = new WeatherParser();
         FootballParser footballParser = new FootballParser();
         TemperatureDistributionCalculator temperatureDistributionCalculator = new TemperatureDistributionCalculator();
+        GoalDistributionCalculator goalDistributionCalculator = new GoalDistributionCalculator();
 
         BufferedReader weatherFileReader = csvReader.getFileFromResourceAsStream(weatherFile);
         List<WeatherDay> weatherData = null;
@@ -55,7 +56,16 @@ public final class App {
             return;
         }
 
-        String teamWithSmallestGoalSpread = "A good team"; // Your goal analysis function call …
-        System.out.printf("Team with smallest goal spread       : %s%n", teamWithSmallestGoalSpread);
+        FootballTeam teamWithSmallestGoalSpread = null;
+        if (footballData != null) {
+            teamWithSmallestGoalSpread = goalDistributionCalculator.findMinGoalSpread(footballData);
+        } else {
+            System.err.println("No Data found in the file");
+            return;
+        }
+
+        if (teamWithSmallestGoalSpread != null) {
+            System.out.printf("Team with smallest goal spread       : %s%n", teamWithSmallestGoalSpread.getTeamName());
+        }
     }
 }
