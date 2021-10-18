@@ -22,16 +22,28 @@ public final class App {
 
         // Init all Objects
         IReader csvReader = new CSVReader();
-        BufferedReader weatherFileReader = csvReader.getFileFromResourceAsStream(weatherFile);
-
         WeatherParser weatherParser = new WeatherParser();
+        TemperatureDistributionCalculator temperatureDistributionCalculator = new TemperatureDistributionCalculator();
 
+        BufferedReader weatherFileReader = csvReader.getFileFromResourceAsStream(weatherFile);
+        List<WeatherDay> weatherData = null;
         if (weatherFileReader != null){
-            List<WeatherDay> weatherData = weatherParser.parseCSV(weatherFileReader);
+            weatherData = weatherParser.parseCSV(weatherFileReader);
+        } else {
+            System.err.println("Couldn't read the file");
+            return;
+        }
+        WeatherDay dayWithSmallestTempSpread = null;
+        if (weatherData != null) {
+            dayWithSmallestTempSpread = temperatureDistributionCalculator.findMinTemperatureSpread(weatherData);
+        } else {
+            System.err.println("No Data found in the file");
+            return;
         }
 
-        String dayWithSmallestTempSpread = "Someday";     // Your day analysis function call …
-        System.out.printf("Day with smallest temperature spread : %s%n", dayWithSmallestTempSpread);
+        if (dayWithSmallestTempSpread != null) {
+            System.out.printf("Day with smallest temperature spread : %s%n", dayWithSmallestTempSpread.getDayNumber());
+        }
 
         String teamWithSmallestGoalSpread = "A good team"; // Your goal analysis function call …
         System.out.printf("Team with smallest goal spread       : %s%n", teamWithSmallestGoalSpread);
