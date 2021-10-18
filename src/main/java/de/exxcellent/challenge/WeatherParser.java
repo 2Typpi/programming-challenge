@@ -21,7 +21,7 @@ public class WeatherParser {
             int i = 0;
             while ((row = bufferedReader.readLine()) != null) {
                 String[] day = row.split(",");
-                if(isNumeric(day[0])){
+                if(isNumeric(day[0]) && isNumeric(day[1]) && isNumeric(day[2])){
                     weatherData.add(new WeatherDay(Integer.parseInt(day[0]), Integer.parseInt(day[1]), Integer.parseInt(day[2])));
                 }
                 i++;

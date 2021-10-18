@@ -18,7 +18,7 @@ public class FootballParser {
             int i = 0;
             while ((row = bufferedReader.readLine()) != null) {
                 String[] team = row.split(",");
-                if(isNumeric(team[5])){
+                if(isNumeric(team[5]) && isNumeric(team[6])){
                     footballData.add(new FootballTeam(team[0], Integer.parseInt(team[5]), Integer.parseInt(team[6])));
                 }
                 i++;
